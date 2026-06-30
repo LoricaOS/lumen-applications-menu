@@ -1,26 +1,26 @@
 # lumen-applications-menu
 
-The full-screen application launcher for [AspisOS](https://github.com/AspisOS/AspisOS)
+The full-screen application launcher for [LoricaOS](https://github.com/LoricaOS/LoricaOS)
 — a capability-based, no-ambient-authority x86-64 operating system built on the
-from-scratch [Aegis](https://github.com/AspisOS/Aegis) kernel.
+from-scratch [Aegis](https://github.com/LoricaOS/Aegis) kernel.
 
 lumen-applications-menu is a Launchpad-style application grid. It is a standalone
 binary (installed at `/bin/applications`) and a client of the
-[lumen](https://github.com/AspisOS/lumen) compositor: it opens a chromeless
+[lumen](https://github.com/LoricaOS/lumen) compositor: it opens a chromeless
 full-screen window, lays the installed apps out as a tile grid over the dimmed
 desktop, launches the one the user picks, and dismisses itself. It is
-distributed as a [herald](https://github.com/AspisOS/AspisOS) system package.
+distributed as a [herald](https://github.com/LoricaOS/LoricaOS) system package.
 
-## Where it fits in AspisOS
+## Where it fits in LoricaOS
 
-AspisOS is decomposed into independent repositories:
+LoricaOS is decomposed into independent repositories:
 
 | Repo | Role |
 |------|------|
-| `AspisOS/Aegis` | The kernel: framebuffer, `AF_UNIX` sockets, the capability model, the syscalls everything graphical runs on. |
-| `AspisOS/lumen` | The compositor/display server. Owns the screen; every GUI process connects to `/run/lumen.sock` for a window. |
-| `AspisOS/glyph` | The GUI toolkit. Provides drawing primitives, fonts, procedural icons, the `/apps` bundle scanner (`glyph_apps_scan`), and the client side of lumen's window protocol (`lumen_client.h`). |
-| `AspisOS/lumen-applications-menu` | **This repo.** A lumen client that presents the installed-apps grid and brokers launches through the compositor. |
+| `LoricaOS/Aegis` | The kernel: framebuffer, `AF_UNIX` sockets, the capability model, the syscalls everything graphical runs on. |
+| `LoricaOS/lumen` | The compositor/display server. Owns the screen; every GUI process connects to `/run/lumen.sock` for a window. |
+| `LoricaOS/glyph` | The GUI toolkit. Provides drawing primitives, fonts, procedural icons, the `/apps` bundle scanner (`glyph_apps_scan`), and the client side of lumen's window protocol (`lumen_client.h`). |
+| `LoricaOS/lumen-applications-menu` | **This repo.** A lumen client that presents the installed-apps grid and brokers launches through the compositor. |
 
 The launcher holds no display authority of its own — it does not touch the
 framebuffer or input devices. It talks to lumen, which composites its surface and
@@ -78,7 +78,7 @@ signature-trusted, installed verbatim by herald.
 ## Building
 
 lumen-applications-menu builds with a musl cross-compiler against a pinned
-[glyph](https://github.com/AspisOS/glyph) toolkit artifact, then packs a signed
+[glyph](https://github.com/LoricaOS/glyph) toolkit artifact, then packs a signed
 herald package.
 
 ```sh
@@ -130,5 +130,5 @@ GLYPH_VERSION     the pinned glyph toolkit version it builds against
 ## Dependencies
 
 `depends=lumen` — the launcher is a lumen client and launches apps through the
-compositor, so installing it pulls [lumen](https://github.com/AspisOS/lumen)
+compositor, so installing it pulls [lumen](https://github.com/LoricaOS/lumen)
 (which in turn ships the desktop fonts every component inherits).
