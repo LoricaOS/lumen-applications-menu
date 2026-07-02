@@ -30,8 +30,8 @@
 #define LABEL_GAP   10            /* gap between icon bottom and label top */
 #define SIDE_MARGIN 80            /* minimum left/right margin for the grid */
 
-#define HOVER_ALPHA 28
-#define SEL_ALPHA   60
+#define HOVER_ALPHA 22
+#define SEL_ALPHA   64
 
 /* Synthetic arrow codes (Lumen folds CSI arrows to these for proxy windows). */
 #define KEY_ESC          0x1B
@@ -98,15 +98,19 @@ static void render_tile(int idx)
     int x = g_st.grid_x + (idx % g_st.cols) * CELL_W;
     int y = g_st.grid_y + (idx / g_st.cols) * CELL_H;
 
-    /* Highlight: stronger for the keyboard selection, subtle for hover.
-     * Off-key pixels by design — the blend lifts them off C_TERM_BG so
-     * they composite as a translucent pane over the frosted backdrop. */
-    if (idx == g_st.sel)
+    /* Highlight: accent-tinted pill + accent ring for the keyboard
+     * selection, a faint white wash for hover. Off-key pixels by design —
+     * the blend lifts them off C_TERM_BG so they composite as a translucent
+     * pane over the frosted backdrop. */
+    if (idx == g_st.sel) {
         draw_blend_rounded_rect(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
-                                10, 0x00FFFFFF, SEL_ALPHA);
-    else if (idx == g_st.hover)
+                                12, THEME_ACCENT, SEL_ALPHA);
+        draw_rounded_outline(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
+                             12, 1, THEME_ACCENT);
+    } else if (idx == g_st.hover) {
         draw_blend_rounded_rect(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
-                                10, 0x00FFFFFF, HOVER_ALPHA);
+                                12, 0x00FFFFFF, HOVER_ALPHA);
+    }
 
     glyph_app_t *app = &g_st.apps[idx];
     glyph_icon_draw(s, app->id, app->name,
