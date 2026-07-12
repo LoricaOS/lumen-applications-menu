@@ -104,12 +104,12 @@ static void render_tile(int idx)
      * pane over the frosted backdrop. */
     if (idx == g_st.sel) {
         draw_blend_rounded_rect(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
-                                12, THEME_ACCENT, SEL_ALPHA);
+                                R_MD, THEME_ACCENT, SEL_ALPHA);
         draw_rounded_outline(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
-                             12, 1, THEME_ACCENT);
+                             R_MD, 1, THEME_ACCENT);
     } else if (idx == g_st.hover) {
         draw_blend_rounded_rect(s, x + 8, y + 4, CELL_W - 16, CELL_H - 8,
-                                12, 0x00FFFFFF, HOVER_ALPHA);
+                                R_MD, 0x00FFFFFF, HOVER_ALPHA);
     }
 
     glyph_app_t *app = &g_st.apps[idx];
